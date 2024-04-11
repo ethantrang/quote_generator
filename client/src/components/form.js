@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-import DatePicker from 'react-datepicker'
-import "react-datepicker/dist/react-datepicker.module.css"
 import { Button } from "./button";
+import { useGlobalContext } from "../context/globalcontext";
 
-function Form() {
+function Form({active, setActive}) {
+    const {getQuote} = useGlobalContext();
+
     const [inputState, setInputState] = useState({
         first_name: '',
         last_name: '',
@@ -21,7 +22,7 @@ function Form() {
     })
 
     const { first_name, last_name, email, phone, location, gender,
-        dob, citizenship, income_bracket, vaccination, smoking, alcohol, pkg, } = inputState;
+        dob, citizenship, income_bracket, vaccination, smoking, alcohol, } = inputState;
 
     const handleInput = name => e =>{
         const value = ['dob', 'citizenship', 'income_bracket', 'smoking', 'alcohol', 'vaccination'].includes(name) ? parseInt(e.target.value, 10) : e.target.value;
@@ -29,19 +30,8 @@ function Form() {
     }
 
     const handleSubmit = async () => {
-        try {
-            const response = await fetch('http://localhost:8000/quote', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(inputState),
-            });
-            const data = await response.json();
-            console.log(data);
-        } catch (error) {
-            console.error('Error:', error);
-        }
+        getQuote(inputState);
+        setActive(3);
     };
     
     return (
@@ -93,14 +83,7 @@ function Form() {
                         </select>
                     </div>
                     <div className="date">
-                        <DatePicker
-                            id="dob"
-                            autoComplete="off"
-                            placeholderText="Date of Birth"
-                            selected={dob}
-                            dateFormat="dd/MM/yyyy"
-                            onChange={(dob) => {setInputState({...inputState, dob: dob.getFullYear()})}}
-                        />
+                        <input type="number" value={dob} name="dob" autoComplete="off" placeholder="Year of Birth" onChange={handleInput('dob')} /> 
                     </div>
                 </div>
             </span>

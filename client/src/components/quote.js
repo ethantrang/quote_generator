@@ -1,11 +1,14 @@
 import React from "react";
 import { styled } from "styled-components";
+import { useGlobalContext } from "../context/globalcontext";
 
 function Quote() {
+    const {quote} = useGlobalContext();
+
     return (
         <QuoteStyled>
             <div className="head">Your Personalised Plan:</div>
-            <span><div className="Price">$34.60</div><div className="small">/month</div></span>
+            <span><div className="Price">${quote ? quote.toFixed(2) : 0}</div><div className="small">/year</div></span>
         </QuoteStyled>
     )
 }
