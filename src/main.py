@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from generation import quote_client
+from storage import storage_client
 from pydantic import BaseModel
 from typing import List, Dict, Any
 from fastapi.middleware.cors import CORSMiddleware
@@ -30,6 +31,9 @@ class QuoteRequest(BaseModel):
     smoking: int
     alcohol: int
 
+class FetchRequest(BaseModel):
+    email: str
+
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
@@ -39,11 +43,10 @@ def get_quote(request: QuoteRequest):
     quote_response = quote_client.calculate_quote(**request.dict())
     return quote_response
 
-# @app.post("/details")
-# def get_details():
-#     TODO: get details from db, check if quote submitted or not
-#     details = quote_client.get_details()
-#     return details
+@app.post("/fetch")
+def get_fetch(request: FetchRequest):
+    details = storage_client.get_user(**request.dict())
+    return details
 
 if __name__ == "__main__":
     import uvicorn
