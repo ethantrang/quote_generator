@@ -5,14 +5,17 @@ import Header from "./components/header";
 import Home from "./components/home";
 import Form from "./components/form";
 import Quote from "./components/quote";
+import { useGlobalContext } from "./context/globalcontext";
 
 function App() {
     const [active, setActive] = useState(1);
 
+    const global = useGlobalContext();
+
     const displayPage = () => {
         switch(active) {
             case 2:
-                return <Form />
+                return <Form active={active} setActive={setActive}/>
             case 3:
                 return <Quote />
             default:
