@@ -8,7 +8,7 @@ function Home({active, setActive}) {
             <p onClick={() => setActive(2)}><span >Get Your Quote <i className="fa-solid fa-arrow-right"></i></span></p>
             <p>Just One Click. Free of charge.</p>
             <div>
-            <Button>View Existing Quote</Button>
+            <Button onClick={() => {setActive(3)}}>View Existing Quote</Button>
             </div>
         </HomeStyled>
     )

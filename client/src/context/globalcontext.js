@@ -16,10 +16,18 @@ export const GlobalProvider = ({children}) => {
         setQuote(response.data.quote);
     }
 
+    const getExistingQuote = async (email) => {
+        const response = await axios.get(`${BASE_URL}quote`, email).catch((err) => {
+            console.error(err.message);
+        })
+
+        setQuote(response.data);
+    }
     return (
         <GlobalContext.Provider value={{
             quote,
             getQuote,
+            getExistingQuote,
         }}
         >
             {children}
