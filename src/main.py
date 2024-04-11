@@ -1,24 +1,34 @@
 from fastapi import FastAPI
-from logic import quote_client
+from generation import quote_client
 from pydantic import BaseModel
 from typing import List, Dict, Any
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI() 
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],  # Include OPTIONS method
+    allow_headers=["*"],
+)
+
 
 class QuoteRequest(BaseModel):
     email: str
     phone: str
     first_name: str
     last_name: str
+
     location: str
     gender: str
-
-    dob: List[int]
-    citizenship: str
+    dob: int
+    citizenship: int
     income_bracket: int
-    vaccination: bool
-    smoking: bool
-    alcohol: bool
+    vaccination: int
+    smoking: int
+    alcohol: int
 
 @app.get("/")
 def read_root():
@@ -31,7 +41,7 @@ def get_quote(request: QuoteRequest):
 
 # @app.post("/details")
 # def get_details():
-#     #TODO: get details from db, check if quote submitted or not
+#     TODO: get details from db, check if quote submitted or not
 #     details = quote_client.get_details()
 #     return details
 

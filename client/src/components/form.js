@@ -18,15 +18,32 @@ function Form() {
         vaccination: '',
         smoking: '',
         alcohol: '',
-        pkg: '',
     })
 
     const { first_name, last_name, email, phone, location, gender,
         dob, citizenship, income_bracket, vaccination, smoking, alcohol, pkg, } = inputState;
 
     const handleInput = name => e =>{
-        setInputState({...inputState, [name]: e.target.value})
+        const value = ['dob', 'citizenship', 'income_bracket', 'smoking', 'alcohol', 'vaccination'].includes(name) ? parseInt(e.target.value, 10) : e.target.value;
+        setInputState({...inputState, [name]: value})
     }
+
+    const handleSubmit = async () => {
+        try {
+            const response = await fetch('http://localhost:8000/quote', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(inputState),
+            });
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+    
     return (
         <FormStyled>
             <span>
@@ -82,7 +99,7 @@ function Form() {
                             placeholderText="Date of Birth"
                             selected={dob}
                             dateFormat="dd/MM/yyyy"
-                            onChange={(dob) => {setInputState({...inputState, dob: dob})}}
+                            onChange={(dob) => {setInputState({...inputState, dob: dob.getFullYear()})}}
                         />
                     </div>
                 </div>
@@ -92,25 +109,25 @@ function Form() {
                     <div className="selects input-control">
                         <select required value={citizenship} name="citizenship" id="citizenship" onChange={handleInput('citizenship')}>
                             <option value="" disabled>Are You An Australian Citizen?</option>
-                            <option value="True">Yes</option>
-                            <option value="False">No</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
                         </select>
                     </div>
                     <div className="selects input-control">
                         <select required value={income_bracket} name="income_bracket" id="income_bracket" onChange={handleInput('income_bracket')}>
                             <option value="" disabled>Income Bracket</option>
-                            <option value="0-$18200">0-$18,200</option>
-                            <option value="$18201-$45000">$18,201-$45,000</option>
-                            <option value="$45001-$120000">$45,001-$120,000</option>
-                            <option value="$120000-$180000">$120,000-$180,000</option>
-                            <option value="$180001+">$180,001+</option>
+                            <option value="18200">0-$18,200</option>
+                            <option value="45000">$18,201-$45,000</option>
+                            <option value="120000">$45,001-$120,000</option>
+                            <option value="180000">$120,000-$180,000</option>
+                            <option value="200000">$180,001+</option>
                         </select>
                     </div>
                     <div className="selects input-control">
                         <select required value={smoking} name="smoking" id="smoking" onChange={handleInput('smoking')}>
                             <option value="" disabled>Do You Smoke?</option>
-                            <option value="True">Yes</option>
-                            <option value="False">No</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
                         </select>
                     </div>
                 </div>
@@ -120,22 +137,22 @@ function Form() {
                     <div className="selects input-control">
                         <select required value={alcohol} name="alcohol" id="alcohol" onChange={handleInput('alcohol')}>
                             <option value="" disabled>Are You A Frequent Drinker?</option>
-                            <option value="True">Yes</option>
-                            <option value="False">No</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
                         </select>
                     </div>
                     <div className="selects input-control">
                         <select required value={vaccination} name="vaccination" id="vaccination" onChange={handleInput('vaccination')}>
                             <option value="" disabled>Are You Currently Up-to-Date With Vaccinations?</option>
-                            <option value="True">Yes</option>
-                            <option value="False">No</option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
                         </select>
                     </div>
                 </div>
             </span>
             <span>
                 <div className="button">
-                    <Button>Submit</Button>
+                    <Button onClick={e => {e.preventDefault(); handleSubmit();}}>Submit</Button>
                 </div>
             </span>
         </FormStyled>
