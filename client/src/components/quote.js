@@ -92,8 +92,8 @@ input, select{
 }
 
 input:focus{
-    border-color:rgb(238, 175, 202);
-    box-shadow:0 0 8px 0 rgb(238, 175, 202);
+    border-color:rgb(255, 255, 255);
+    box-shadow:0 0 8px 0 rgb(255, 255, 255);
 }
 `;
 
