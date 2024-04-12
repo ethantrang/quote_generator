@@ -17,7 +17,7 @@ export const GlobalProvider = ({children}) => {
     }
 
     const getExistingQuote = async (email) => {
-        const response = await axios.get(`${BASE_URL}quote`, email).catch((err) => {
+        const response = await axios.post(`${BASE_URL}fetch`, email).catch((err) => {
             console.error(err.message);
         })
 

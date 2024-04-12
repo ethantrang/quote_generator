@@ -6,10 +6,18 @@ import { Button } from "./button";
 function Quote() {
     const {quote, getExistingQuote} = useGlobalContext();
 
-    const [email, setEmail] = useState('');
+    const [inputState, setInputState] = useState({
+        email: '',
+    });
  
+    const { email } = inputState
+
+    const handleInput = (name) => e => {
+        setInputState({...inputState, [name]: e.target.value})
+    }
+
     const handleSubmit = async () => {
-        getExistingQuote(email); 
+        getExistingQuote(inputState); 
     }
 
     const displayQuote = () => {
@@ -26,7 +34,7 @@ function Quote() {
                     <form>
                         <div>
                             <label>Previously Used Email</label>
-                            <input type="text" value={email} placeholder="Email" name="email" onChange={(e) => setEmail(e.target.value)} autoComplete="off" />
+                            <input type="email" value={email} placeholder="Email" name="email" onChange={handleInput('email')} autoComplete="off" />
                         </div>
                         <Button onClick={e => {e.preventDefault(); handleSubmit()}}>View Existing Quote</Button>
                     </form>
