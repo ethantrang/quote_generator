@@ -10,14 +10,14 @@ function Quote() {
         email: '',
     });
  
-    const { email } = inputState
+    const { email } = inputState;
 
-    const handleInput = (name) => e => {
+    const handleInput = name => e => {
         setInputState({...inputState, [name]: e.target.value})
     }
 
     const handleSubmit = async () => {
-        getExistingQuote(inputState); 
+        await getExistingQuote(inputState); 
     }
 
     const displayQuote = () => {
@@ -62,12 +62,16 @@ justify-content: center;
     font-size: 50px;
 }
 .Price{
+    display: flex;
     font-size: 80px;
     font-weight: 600;
+    justify-content: center;
+    align-items: center;
 }
 span{
     display: flex;
     align-items: center;
+    justify-content: center;
     width: 100%;
 }
 form{

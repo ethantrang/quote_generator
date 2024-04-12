@@ -21,7 +21,7 @@ export const GlobalProvider = ({children}) => {
             console.error(err.message);
         })
 
-        setQuote(response.data);
+        setQuote(response.data.quote);
     }
     return (
         <GlobalContext.Provider value={{
